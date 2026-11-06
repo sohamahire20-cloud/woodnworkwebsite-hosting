@@ -1,0 +1,1 @@
+{"name":"wood-n-work","version":"1.0.0","private":true,"type":"module","scripts":{"start":"node server.mjs","check":"node --check server.mjs && node --check pages.mjs && node --check chat.mjs && node --check public/app.js && node --check public/motion.js && node --check public/motion-math.js","test":"node tests/verify.mjs"},"engines":{"node":">=22"}}
