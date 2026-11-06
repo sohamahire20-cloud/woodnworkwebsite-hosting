@@ -6,8 +6,7 @@ The owner identifies 35+ years of experience and reasonable pricing as strengths
 
 Phone and WhatsApp: +91 9090 9999 16. Call: tel:+919090999916. WhatsApp: https://wa.me/919090999916
 Email: siddham.0160@gmail.com
-Website: www.woodnwork.in
-Instagram: https://www.instagram.com/woodnwork.in/
+Instagram: direct visitors to the Instagram link on the website.
 Address: 273, Shree Kulswamini Business Centre, Shop No. 6/7, Pandhari Mala, Ambad, Nashik-10
 Hours: 10:00 AM–8:00 PM. No specific open days are confirmed.
 Business location and service area: Nashik. Discuss other locations personally; do not promise coverage.
