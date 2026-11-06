@@ -57,7 +57,7 @@ Without JavaScript, for reduced-motion preferences, or below 560px of usable vie
 
 Validated enquiries append to `data/enquiries.ndjson` through the existing serialised write queue, with a reference and timestamp. The server flushes the file before returning `201 {status:"saved",reference}`. `DATA_DIRECTORY` can select a private persistent directory; it must be outside `public`. Only approved assets under `public` are served. Enquiries, knowledge, research, server source and environment files cannot be read through the website. There is intentionally no unauthenticated lead-list endpoint. The owner can inspect the private file through authorised server/file access. On Linux newly created directories/files use owner-only permissions; apply appropriate Windows ACLs/hosting permissions as well.
 
-After a confirmed save, the browser navigates to the WhatsApp draft in the same tab and leaves a fallback link on the form. If the website cannot confirm the save, the visitor can still open a draft directly from the form. Validation errors stay on the form. Reopening an unchanged saved draft reuses its reference during the current page session.
+On valid submission, the browser starts a background save and immediately opens a prefilled WhatsApp draft in the same tab. The WhatsApp handoff works independently of the server save. The visitor presses Send in WhatsApp.
 
 **The visitor must press Send in WhatsApp. The website cannot verify sending or delivery.** Returning to the site does not imply the visitor sent anything. Opening WhatsApp uses its normal mobile-app/browser or desktop-web fallback. There is no automatic business messaging integration; obsolete webhook delivery code was removed. Old notification records are preserved but no longer used.
 

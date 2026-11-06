@@ -100,27 +100,17 @@ if(form){
  const select=form.elements.requirement;
  const requested=new URLSearchParams(location.search).get('requirement');
  if([...select.options].some(option=>option.value===requested))select.value=requested;
- const status=document.querySelector('#form-status'),submit=form.querySelector('button[type=submit]');
+ const status=document.querySelector('#form-status');
  let savedSubmission=null;
  const setError=(name,message)=>{const field=form.elements[name],label=document.getElementById(name+'-error');if(field)field.setAttribute('aria-invalid',message?'true':'false');if(label)label.textContent=message||'';};
  form.addEventListener('input',event=>{if(event.target.name)setError(event.target.name,'');});
- function prepareDraft(values,reference){
-  const lines=['Hello Wood N Work, I would like to discuss my requirement.',...(reference?['Reference: '+reference]:[]),'Name: '+values.name,'Phone: '+values.phone,'Requirement: '+values.requirement,'Locality: '+values.location];
+ function prepareDraft(values){
+  const lines=['Hello Wood N Work, I would like to discuss my requirement.','Name: '+values.name,'Phone: '+values.phone,'Requirement: '+values.requirement,'Locality: '+values.location];
   for(const [key,label]of [['space','Available space / dimensions'],['budget','Budget'],['timing','Preferred timing'],['email','Email'],['details','Details']])if(values[key])lines.push(label+': '+values[key]);
   return 'https://wa.me/919090999916?text='+encodeURIComponent(lines.join('\n'));
  }
- function showDraft(message,href){
-  status.replaceChildren();
-  const note=document.createElement('p');
-  note.textContent=message+' Press Send inside WhatsApp to share your enquiry.';
-  const link=document.createElement('a');
-  link.href=href;
-  link.textContent='Open WhatsApp draft ↗';
-  status.append(note,link);
-  status.focus();
- }
- form.addEventListener('submit',async event=>{
-  event.preventDefault();if(submit.disabled)return;
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
   status.textContent='';form.querySelectorAll('.field-error').forEach(n=>n.textContent='');form.querySelectorAll('[aria-invalid]').forEach(n=>n.removeAttribute('aria-invalid'));
   const values=Object.fromEntries([...new FormData(form)].map(([key,value])=>[key,String(value).trim()]));const errors={};
   if(!values.name)errors.name='Please enter your name.';
@@ -130,30 +120,23 @@ if(form){
   if(!/^[6-9]\d{9}$/.test(phone)||!/^(?:\+91[ -]?)?[6-9][0-9 -]{8,13}$/.test(values.phone))errors.phone='Please enter a valid Indian mobile number.';
   if(values.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email))errors.email='Please enter a valid email address.';
   if(Object.keys(errors).length){for(const [name,message]of Object.entries(errors))setError(name,message);status.textContent='Please check the highlighted fields. Your entries are still here.';form.elements[Object.keys(errors)[0]].focus();return;}
+  const href=prepareDraft(values);
   const fingerprint=JSON.stringify(values);
-  submit.disabled=true;submit.textContent='Saving your enquiry…';form.setAttribute('aria-busy','true');
-  let saveConfirmed=false;
-  try{
-   let result;
-   if(savedSubmission?.fingerprint===fingerprint)result=savedSubmission.result;
-   else{
-    const response=await fetch('/api/enquiries',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(values),signal:AbortSignal.timeout(20000)});
-    result=await response.json();
-    if(!response.ok){if(result.errors){for(const [name,message]of Object.entries(result.errors))setError(name,message);form.elements[Object.keys(result.errors)[0]]?.focus();}throw new Error(result.error||'The server could not save your enquiry. Please try again or call us.');}
-    if(result.status!=='saved'||typeof result.reference!=='string')throw new Error('The server did not confirm a save. Please call us before trying again.');
-    savedSubmission={fingerprint,result};
-   }
-   saveConfirmed=true;
-   const href=prepareDraft(values,result.reference);
-   showDraft('Enquiry saved. Reference '+result.reference+'. If WhatsApp does not open, use the link below.',href);
-   window.location.assign(href);
-  }catch(error){
-   if(form.querySelector('[aria-invalid="true"]')){
-    status.textContent=error.message;
-   }else{
-    showDraft('We could not confirm a website save. You can still share your details directly on WhatsApp.',prepareDraft(values));
-   }
-  }finally{submit.disabled=false;submit.textContent=saveConfirmed?'Open saved WhatsApp draft ↗':'Save & open WhatsApp ↗';form.removeAttribute('aria-busy');}
+  if(savedSubmission!==fingerprint){
+   savedSubmission=fingerprint;
+   // Keep the save request alive when the browser leaves for WhatsApp.
+   fetch('/api/enquiries',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:fingerprint,
+    keepalive:true
+   }).then(response=>{
+    if(!response.ok&&savedSubmission===fingerprint)savedSubmission=null;
+   }).catch(()=>{
+    if(savedSubmission===fingerprint)savedSubmission=null;
+   });
+  }
+  window.location.assign(href);
  });
 }
 
