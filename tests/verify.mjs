@@ -34,7 +34,7 @@ try{
  ok(storyPose(1,3,4,1200,750).opacity===1&&storyPose(1,3,4,1200,750).phase===0,'last story remains readable until the stage releases');
  const before=storyPose(0,0,4,1200,750),after=storyPose(.3,0,4,1200,750);ok(before.x<after.x&&before.y>after.y,'cards follow the diagonal scroll path in both directions');
  const opening=render('/').match(/<section class="opening"[\s\S]*?<\/section>/)?.[0];
- ok(opening&&!/<button|<a |<h[1-6]|opening-bottom|film-control/.test(opening),'opening has only film and fallback, without circled overlays');
+ ok(opening&&opening.includes('href="#welcome"')&&opening.includes('Scroll to explore')&&!/<button|opening-bottom|film-control/.test(opening),'opening includes the mobile scroll link and has no playback overlays');
  ok(render('/').includes('not customer reviews or completed projects')&&((render('/').match(/data-story-card/g)||[]).length===4),'story deck is clearly illustrative without fabricated reviews');
  for(const path of ['/fonts/eb-garamond-regular.woff2','/fonts/eb-garamond-italic.woff2','/fonts/figtree-regular.woff2','/motion-math.js']){const response=await fetch(base+path);ok(response.status===200,'local motion dependency '+path);}
  const metadata=JSON.parse(render('/').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);

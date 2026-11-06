@@ -105,16 +105,18 @@ if(form){
  const setError=(name,message)=>{const field=form.elements[name],label=document.getElementById(name+'-error');if(field)field.setAttribute('aria-invalid',message?'true':'false');if(label)label.textContent=message||'';};
  form.addEventListener('input',event=>{if(event.target.name)setError(event.target.name,'');});
  function prepareDraft(values,reference){
-  const lines=['Hello Wood N Work, I would like to discuss my requirement.','Reference: '+reference,'Name: '+values.name,'Phone: '+values.phone,'Requirement: '+values.requirement,'Locality: '+values.location];
+  const lines=['Hello Wood N Work, I would like to discuss my requirement.',...(reference?['Reference: '+reference]:[]),'Name: '+values.name,'Phone: '+values.phone,'Requirement: '+values.requirement,'Locality: '+values.location];
   for(const [key,label]of [['space','Available space / dimensions'],['budget','Budget'],['timing','Preferred timing'],['email','Email'],['details','Details']])if(values[key])lines.push(label+': '+values[key]);
   return 'https://wa.me/919090999916?text='+encodeURIComponent(lines.join('\n'));
  }
- function showSaved(reference,href,popupAvailable){
+ function showDraft(message,href){
   status.replaceChildren();
-  const heading=document.createElement('p');heading.textContent='Your enquiry was saved on the website server. Reference '+reference+'.';status.append(heading);
-  const note=document.createElement('p');note.textContent=popupAvailable?'A WhatsApp draft was requested in a new tab. Please press Send inside WhatsApp. If it did not open, use the link below.':'Your browser did not allow the WhatsApp tab to open. Use the link below to open your draft, then press Send inside WhatsApp.';status.append(note);
-  const uncertainty=document.createElement('p');uncertainty.textContent='The website cannot know whether you pressed Send or whether a message was delivered. Your saved enquiry is separate from WhatsApp.';status.append(uncertainty);
-  const fallback=document.createElement('a');fallback.href=href;fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.textContent='Open WhatsApp draft ↗';status.append(fallback);
+  const note=document.createElement('p');
+  note.textContent=message+' Press Send inside WhatsApp to share your enquiry.';
+  const link=document.createElement('a');
+  link.href=href;
+  link.textContent='Open WhatsApp draft ↗';
+  status.append(note,link);
   status.focus();
  }
  form.addEventListener('submit',async event=>{
@@ -128,8 +130,6 @@ if(form){
   if(!/^[6-9]\d{9}$/.test(phone)||!/^(?:\+91[ -]?)?[6-9][0-9 -]{8,13}$/.test(values.phone))errors.phone='Please enter a valid Indian mobile number.';
   if(values.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email))errors.email='Please enter a valid email address.';
   if(Object.keys(errors).length){for(const [name,message]of Object.entries(errors))setError(name,message);status.textContent='Please check the highlighted fields. Your entries are still here.';form.elements[Object.keys(errors)[0]].focus();return;}
-  // Reserve a window during the click gesture, before awaiting the server save.
-  let popup;try{popup=window.open('about:blank','_blank');if(popup){popup.opener=null;popup.document.title='Preparing your WhatsApp draft';popup.document.body.textContent='Saving your enquiry. Your WhatsApp draft will open here after the website confirms the save. Please keep this tab open.';}}catch{popup=null;}
   const fingerprint=JSON.stringify(values);
   submit.disabled=true;submit.textContent='Saving your enquiry…';form.setAttribute('aria-busy','true');
   let saveConfirmed=false;
@@ -144,13 +144,15 @@ if(form){
     savedSubmission={fingerprint,result};
    }
    saveConfirmed=true;
-   const href=prepareDraft(values,result.reference);let popupAvailable=false;
-   try{if(popup&&!popup.closed){popup.location.replace(href);popupAvailable=true;}}catch{try{popup?.close();}catch{}}
-   showSaved(result.reference,href,popupAvailable);
+   const href=prepareDraft(values,result.reference);
+   showDraft('Enquiry saved. Reference '+result.reference+'. If WhatsApp does not open, use the link below.',href);
+   window.location.assign(href);
   }catch(error){
-   try{popup?.close();}catch{}
-   status.textContent=error.name==='TimeoutError'||error instanceof TypeError?'We could not confirm the server save. Your entries are still here. Please call Wood N Work before retrying if you are unsure whether the enquiry was saved.':error.message;
-   if(!form.querySelector('[aria-invalid="true"]'))status.focus();
+   if(form.querySelector('[aria-invalid="true"]')){
+    status.textContent=error.message;
+   }else{
+    showDraft('We could not confirm a website save. You can still share your details directly on WhatsApp.',prepareDraft(values));
+   }
   }finally{submit.disabled=false;submit.textContent=saveConfirmed?'Open saved WhatsApp draft ↗':'Save & open WhatsApp ↗';form.removeAttribute('aria-busy');}
  });
 }
