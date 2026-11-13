@@ -92,3 +92,126 @@ body{font-family:var(--sans)}h1,h2,h3{font-family:var(--serif);font-weight:400;l
     max-height: 280px;
   }
 }
+
+.brand-story-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+.brand-story-visual {
+  display: none;
+}
+.brand-story-inline {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  max-height: 340px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+@media (min-width: 761px) {
+  .motion-active .brand-story-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
+  }
+  .motion-active .brand-story-visual {
+    display: block;
+  }
+  .motion-active .brand-story-inline {
+    display: none;
+  }
+}
+
+.product-showcase {
+  --screen: 100dvh;
+  --showcase-size: min(440px, 74vw, calc(var(--screen) - 150px));
+  background: var(--taupe);
+  margin-block: clamp(48px, 7vw, 96px);
+}
+@media (max-width: 620px) {
+  .product-showcase {
+    --screen: calc(100dvh - 80px - env(safe-area-inset-bottom));
+  }
+}
+.showcase-stage {
+  position: relative;
+  padding: 56px 22px;
+}
+.showcase-heading {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.showcase-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 185px), 1fr));
+  gap: 18px;
+  max-width: 1160px;
+  margin-inline: auto;
+}
+.showcase-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: 22px;
+  background: var(--peach);
+  box-shadow: 0 20px 44px #25170928;
+}
+.showcase-card img {
+  width: 100%;
+  height: 100%;
+}
+.showcase-card:nth-child(1) img,
+.showcase-card:nth-child(4) img {
+  object-position: center 65%;
+}
+.showcase-card > span {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 18px 13px;
+  background: linear-gradient(transparent, #271b14ec);
+  color: white;
+  font: clamp(24px, 4vw, 44px)/1.1 var(--serif);
+}
+.showcase-card > span > span {
+  font-size: .65em;
+}
+.showcase-card:focus-visible {
+  outline-offset: -5px;
+  outline-color: white;
+}
+.showcase-skip:focus {
+  position: absolute;
+  top: 115px;
+}
+.showcase-animated {
+  height: calc(var(--screen) * 5);
+  overflow: clip;
+}
+.showcase-animated .showcase-stage {
+  position: sticky;
+  top: 0;
+  height: var(--screen);
+  overflow: hidden;
+  padding: 0;
+  perspective: 1200px;
+}
+.showcase-animated .showcase-heading {
+  position: absolute;
+  top: max(100px, 19%);
+  left: 0;
+  right: 0;
+  padding-inline: 14px;
+  margin: 0;
+}
+.showcase-animated .showcase-cards {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+}
+.showcase-animated .showcase-card {
+  position: absolute;
+  width: var(--showcase-size);
+  left: calc(50% - var(--showcase-size) / 2);
+  top: calc(56% - var(--showcase-size) / 2);
+  backface-visibility: hidden;
+}

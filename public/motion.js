@@ -6,7 +6,7 @@ const mobile=matchMedia('(max-width:620px)');
 const page=document.querySelector('.page-scroll');
 const deck=document.querySelector('[data-story-deck]');
 const deckCards=[...document.querySelectorAll('[data-story-card]')];
-const deckButtons=[...document.querySelectorAll('[data-deck-jump]')];
+const deckHeading=deck?.querySelector('[data-deck-heading]');
 const materialStories=[...document.querySelectorAll('[data-material-story]')];
 const brandStories=[...document.querySelectorAll('.brand-story')].map(section=>({
  chapters:[...section.querySelectorAll('.brand-story-chapter')],
@@ -58,7 +58,7 @@ function update(){
  frame=0;
  const height=viewport(),top=scrollTop();
  header?.classList.toggle('is-scrolled',top>60);
- if(!active)return;
+ if(active){
  for(const img of parallax){const rect=img.parentElement.getBoundingClientRect();if(rect.bottom<0||rect.top>height)continue;const delta=clamp((height/2-(rect.top+rect.height/2))/height,-1,1);img.style.setProperty('--image-y',(delta*28).toFixed(2)+'px');}
  for(const paragraph of reading){const rect=paragraph.getBoundingClientRect();const progress=clamp((height*.82-rect.top)/(height*.65));const words=[...paragraph.children];words.forEach((word,index)=>{word.style.opacity=String(.25+.75*clamp((progress-index/words.length)*5));});}
  for(const {chapters,images} of brandStories){
@@ -77,34 +77,35 @@ function update(){
   steps.forEach((step,index)=>step.classList.toggle('material-active',index===nearest));
   story.querySelectorAll('.material-index span').forEach((label,index)=>label.classList.toggle('active',index===nearest));
  }
- if(deck){
+ }
+ if(deck&&deck.classList.contains('showcase-animated')){
   const rect=deck.getBoundingClientRect(),progress=sectionProgress(rect.top,rect.height,height);
   // Geometry uses the actual scroll viewport, including the reserved mobile contact dock.
   if(rect.bottom>0&&rect.top<height){
    const width=deck.clientWidth;
-   deck.style.setProperty('--deck-progress',progress.toFixed(5));
-   const heading=deck.querySelector('.deck-heading');heading.style.opacity=String(1-smoothstep(.02,.14,progress));heading.style.transform='translateY('+(-progress*height*.7).toFixed(2)+'px)';
+   deckHeading.style.opacity=String(1-smoothstep(.02,.13,progress));
    deckCards.forEach((card,index)=>{const p=storyPose(progress,index,deckCards.length,width,height);card.style.transform='translate3d('+p.x.toFixed(2)+'px,'+p.y.toFixed(2)+'px,0) rotateZ('+p.rotate.toFixed(2)+'deg) rotateX('+p.tilt.toFixed(2)+'deg) scale('+p.scale.toFixed(4)+')';card.style.opacity=p.opacity.toFixed(3);card.style.zIndex=String(p.z);card.style.pointerEvents=Math.abs(p.phase)<.65?'auto':'none';});
-   const selected=clamp(Math.round(progress*(deckCards.length+.2)-.7),0,deckCards.length-1);
-   deckButtons.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===selected)));
   }
  }
 }
 function schedule(){if(!frame)frame=requestAnimationFrame(update);}
 function jumpToCard(index){
- if(!active){deckCards[index]?.scrollIntoView({block:'center',behavior:'auto'});return;}
+ if(!deck.classList.contains('showcase-animated'))return;
  const rect=deck.getBoundingClientRect(),height=viewport();const progress=(index+.7)/(deckCards.length+.2);
  scrollToTop(scrollTop()+rect.top+progress*(rect.height-height));schedule();
 }
-deckButtons.forEach((button,index)=>button.addEventListener('click',()=>jumpToCard(index)));
-deckCards.forEach((card,index)=>card.addEventListener('focusin',()=>{if(active)jumpToCard(index);}));
+deckCards.forEach((card,index)=>card.addEventListener('focusin',()=>{if(card.matches(':focus-visible'))jumpToCard(index);}));
 
 function configure(){
  active=!reduced.matches&&!root.classList.contains('motion-static')&&viewport()>=560;
  root.classList.toggle('motion-active',active);
+ const animateShowcase=deck&&!reduced.matches&&!root.classList.contains('motion-static')&&viewport()>=380;
+ deck?.classList.toggle('showcase-animated',Boolean(animateShowcase));
+ if(!animateShowcase){
+  deckCards.forEach(card=>{card.style.removeProperty('transform');card.style.removeProperty('opacity');card.style.removeProperty('pointer-events');card.style.removeProperty('z-index');});
+  deckHeading?.style.removeProperty('opacity');
+ }
  if(!active){
-  deckCards.forEach(card=>{card.style.removeProperty('transform');card.style.removeProperty('opacity');card.style.removeProperty('pointer-events');});
-  if(deck){const heading=deck.querySelector('.deck-heading');heading.style.removeProperty('opacity');heading.style.removeProperty('transform');}
   reading.forEach(p=>[...p.children].forEach(word=>word.style.removeProperty('opacity')));
   parallax.forEach(img=>img.style.removeProperty('--image-y'));
  }
@@ -114,5 +115,3 @@ window.addEventListener('scroll',schedule,{passive:true});page?.addEventListener
 window.addEventListener('resize',configure,{passive:true});reduced.addEventListener('change',configure);mobile.addEventListener('change',configure);
 document.fonts.ready.then(schedule);
 configure();
-
-// Reveal longer case-study sections inside the dialog's own scroll area.
