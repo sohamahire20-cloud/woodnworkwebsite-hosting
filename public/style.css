@@ -127,3 +127,52 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+.catalog-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.catalog-section {
+  padding-block: clamp(40px, 7vw, 90px);
+  scroll-margin-top: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 20px;
+}
+
+.catalog-card {
+  overflow: hidden;
+  background: var(--taupe);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.catalog-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.catalog-card > div {
+  padding: 20px;
+}
+
+.catalog-card h3 {
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.catalog-card p {
+  margin-top: 9px;
+  font-size: 14px;
+}
+
+.material-options {
+  padding-inline-start: 22px;
+  color: var(--teal);
+}

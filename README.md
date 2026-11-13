@@ -1,4 +1,4 @@
-# Wood N Work — By Siddham Bhandari
+# Wood N Work
 
 Complete local website for the Nashik business, updated from the owner’s 5 November 2026 brief. Dependency-free Node.js server with server-rendered pages, responsive CSS and progressively enhanced JavaScript. No build or dependency installation is required.
 
@@ -21,21 +21,15 @@ The test script starts isolated local servers, writes synthetic enquiries only u
 
 ## Pages and preserved URLs
 
-Main navigation: Home `/`, About Us `/about-us`, Projects `/projects`, Plywood and Hardware `/plywood-hardware`, Get in Touch `/get-in-touch`.
+Main navigation: Home `/`, About Us `/about-us`, Products `/products`, and Get in Touch `/get-in-touch`. The catalog contains five collections and owner-supplied product references. Raw materials and finishes appear on Home and Products. Previous Projects, Plywood and Hardware, Kitchens and Custom Furniture URLs redirect to the catalog or its relevant section.
 
-The useful Kitchens `/kitchens` and Custom Furniture `/custom-furniture` pages remain linked from Home and the footer. Existing `.html` addresses and `/our-story`, `/about`, `/wardrobes`, `/contact` still resolve. `/plywood-and-hardware` is also supported. Concept links `/projects#concept-ID` open accessible native dialogs with JavaScript; full concept text is available without JavaScript.
-
-The Projects gallery has only Kitchens, Wardrobes and Interiors filters, with two entries in each category. Kitchens opens by default; direct links select the appropriate category. Existing generated images and original illustrations retain their concept identification. The large introductory notice was removed, without claiming these images document completed work. The owner corrected the public email to `siddham.0160@gmail.com`; links, assistant knowledge and structured data use that address.
-
-The full owner-approved business identity, contact details, address, hours, Nashik service area, 35+ years of experience and reasonable-pricing positioning are included. No founding year, parent-company relationship or operating-age attribution is invented. Historical research is preserved as context; it does not override the latest owner brief.
-
-The owner subsequently supplied and approved the sawblade Wood N Work logo. It now appears in the header and footer, with the Siddham Bhandari attribution. `public/images/wood-n-work-logo-original.png` preserves the supplied image; `wood-n-work-logo.webp` is a faithful web derivative with only the surrounding empty margins cropped.
+The business email is `woodnwork16@gmail.com`. The name and contact details in page metadata and the assistant match the public site.
 
 ## Design and assets
 
 White canvas, walnut-brown text/actions, beige panels, generous spacing and editorial typography. Wispr Flow informed type hierarchy and page rhythm; Kiwo Modular informed the opening presentation. No reference-site code, branding or proprietary media is used. The same openly licensed font families observed on Wispr—EB Garamond and Figtree—are served locally from `public/fonts`, with their SIL Open Font License notices. System fonts remain as fallbacks.
 
-The owner’s final copy direction is reflected across the pages: memorable, benefit-led headings, personal enquiry calls to action, and natural references to interior design, modular kitchens, wardrobes and custom furniture in Nashik. Technical form status remains explicit and factual. Page-specific search titles/descriptions, social sharing metadata, confirmed LocalBusiness structured data, `robots.txt` and a seven-page canonical `sitemap.xml` are included. No search ranking or indexing result is promised, and no discounts or unconfirmed offers are invented.
+The owner’s final copy direction is reflected across the pages: memorable, benefit-led headings, personal enquiry calls to action, and natural references to modular kitchens, wardrobes, doors, beds and office furniture in Nashik. Technical form status remains explicit and factual. Page-specific search titles/descriptions, social sharing metadata, confirmed LocalBusiness structured data, `robots.txt` and a four-page canonical `sitemap.xml` are included. No search ranking or indexing result is promised, and no discounts or unconfirmed offers are invented.
 
 The supplied original `public/video/kitchen-opening.mp4`, its 240 source frames and the original ZIP remain in the local project workspace. The repository includes `public/video/kitchen-opening-six.mp4`, a silent, fast-start H.264 derivative containing the first six seconds at 1280×720, plus `public/video/kitchen-still.webp`. These optimized files are the ones used by the site. The source is the supplied kitchen reveal; no new assembly footage was invented. On mobile, a welcome and scroll link sit below the film. It plays once without overlay text or replay/skip controls, following the owner’s screenshot clarification. Only the navigation and persistent contact controls accompany the opening. Native scrolling always remains available; no forced transition or scroll lock is used for the film. On mobile the full frame is contained rather than cropping important cabinetry. Reduced-motion and data-saving preferences get the static still. No JavaScript or failed video also leaves the still and ordinary links usable.
 
@@ -45,9 +39,8 @@ The fixed mobile contact dock occupies a reserved region outside the scrolling p
 
 ### Scroll motion
 
-`public/motion.js` and `public/motion.css` provide the original, dependency-free scroll presentation. The homepage includes word-by-word heading reveals, staggered card entrances, gently moving images, a reading highlight, a sticky material illustration that changes through three chapters, and a four-card diagonal design-story sequence. The deck uses scroll progress to change translation, depth, rotation and opacity in both directions. Numbered controls and keyboard focus can bring a card into the reading position; a skip link continues to the FAQs. The last card stays readable until the stage releases. Scrolling is native; wheel and touch events are never intercepted. Updates run only in scheduled animation frames after scrolling/resizing.
+`public/motion.js` and `public/motion.css` provide the original, dependency-free scroll presentation. The homepage includes heading reveals, card entrances, image movement, a reading highlight and a material illustration that changes through three chapters. Scrolling remains native.
 
-The design-story deck contains clearly labelled illustrative concepts and approved business facts, not generated customer reviews. Genuine, approved customer quotations are still required for a customer-review section. The original AGENTS.md prohibition on fabricated testimonials is preserved.
 
 Without JavaScript, for reduced-motion preferences, or below 560px of usable viewport height, the story cards form an ordinary readable sequence. The six-second opening remains free of overlay text, replay buttons and other film controls, as requested. The full animation can be reviewed locally at `/#design-stories`.
 
@@ -90,6 +83,5 @@ The owner identifies the hosting plan as Unlimited. Hostinger's current document
 Business email links open the visitor’s email application; this site does not send email. No successful WhatsApp message delivery or deployment is claimed.
 
 
-The two gallery SVG subjects were replaced with built-in ChatGPT GPT Image assets: `public/images/wardrobe-everyday-gpt.webp` and `public/images/living-room-gpt.webp`. Their full-resolution PNG masters remain in the local project workspace; the repository contains the optimized WebP assets used by the site. Repeated card overlays were removed; the gallery introduction identifies AI-generated imagery; the detail-view caption area is blank. No completed-work claim was added.
 
 `nAll six design briefs use the three headings requested by the owner: What the client wanted, Wood N Work solution, and Materials used for that. Copy explains the intended use, layout choices and example material roles in plain English. Gallery filtering has staggered transitions; detail views animate on opening and reveal their sections within the dialog scroll area. Reduced-motion visitors receive the same content without these transitions.

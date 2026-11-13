@@ -4,8 +4,9 @@ import { createReadStream } from 'node:fs';
 import { resolve, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
-import { render, routes } from './pages.mjs';
+import { render, routes, redirects } from './pages.mjs';
 import { chat } from './chat.mjs';
+import { enquiryRequirements } from './catalog.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 for (const file of ['.env', '.env.local']) { try { process.loadEnvFile(resolve(root,file)); } catch {} }
@@ -19,7 +20,6 @@ let writeQueue = Promise.resolve();
 const types = { '.css':'text/css', '.js':'text/javascript', '.svg':'image/svg+xml', '.webp':'image/webp', '.png':'image/png', '.ico':'image/x-icon', '.txt':'text/plain; charset=utf-8', '.xml':'application/xml; charset=utf-8', '.woff2':'font/woff2' };
 const json = (res, status, body) => {res.writeHead(status, {'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
 const fields = {name:100,requirement:60,location:180,space:200,details:2500,phone:30,email:180,timing:150,budget:150};
-const requirements = ['Kitchen','Wardrobe','Interior Design','Plywood & Hardware','Other Custom Furniture','Other Interior Work'];
 async function enquiry(req,res) {
   const origin = req.headers.origin;
   if (origin && origin !== `http://${req.headers.host}` && origin !== `https://${req.headers.host}`) return json(res,403,{error:'Please submit from this website.'});
@@ -38,7 +38,7 @@ async function enquiry(req,res) {
   const values = {};const errors={};
   for (const [key,max] of Object.entries(fields)) { values[key]=typeof input[key]==='string'?input[key].trim():''; if(values[key].length>max) errors[key]=`Please keep this under ${max} characters.`; }
   if(!values.name) errors.name='Please enter your name.';
-  if(!requirements.includes(values.requirement)) errors.requirement='Please select your requirement.';
+  if(!enquiryRequirements.includes(values.requirement)) errors.requirement='Please select your requirement.';
   if(!values.location) errors.location='Please enter your project locality.';
   if(!/^(?:\+91[ -]?)?[6-9][0-9 -]{8,13}$/.test(values.phone)||values.phone.replace(/\D/g,'').replace(/^91(?=\d{10}$)/,'').length!==10) errors.phone='Please enter a valid Indian mobile number.';
   if(values.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email='Please enter a valid email address.';
@@ -59,7 +59,8 @@ const server=http.createServer(async(req,res)=>{
     if(path==='/api/enquiries'&&req.method==='POST') return await enquiry(req,res);
     if(path==='/api/chat'&&req.method==='POST') return await chat(req,res,root);
     if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,{'Allow':'GET, HEAD'});return res.end();}
-    if(routes[path]) {const html=render(path);res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});return res.end(req.method==='HEAD'?undefined:html);}
+    if(redirects.has(path)){res.writeHead(301,{Location:redirects.get(path)});return res.end();}
+    if(Object.hasOwn(routes,path)) {const html=render(path);res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});return res.end(req.method==='HEAD'?undefined:html);}
     const asset=resolve(assets,'.'+path);
     if(!asset.startsWith(assets+'\\')&&!asset.startsWith(assets+'/')){res.writeHead(404);return res.end('Not found');}
     if(extname(asset)==='.mp4') {

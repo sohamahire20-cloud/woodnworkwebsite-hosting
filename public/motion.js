@@ -42,7 +42,7 @@ for(const paragraph of reading){
  paragraph.setAttribute('aria-label',paragraph.textContent);
  const words=paragraph.textContent.split(/(\s+)/);paragraph.replaceChildren(...words.map(text=>{const span=document.createElement('span');span.textContent=text;span.setAttribute('aria-hidden','true');return span;}));
 }
-const entering=[...document.querySelectorAll('.offering-card,.project-card,.principles article,.story-grid,.furniture-feature,.about-visual,.planning-band,.material-reading article,.contact-card,.form-heading,.layout-grid article,.furniture-type-grid article,.material-chapters article')];
+const entering=[...document.querySelectorAll('.offering-card,.catalog-card,.principles article,.story-grid,.furniture-feature,.about-visual,.planning-band,.material-reading article,.contact-card,.form-heading,.layout-grid article,.furniture-type-grid article,.material-chapters article')];
 entering.forEach((node,index)=>{node.dataset.motionEnter='';node.style.setProperty('--enter-delay',(index%2)*.12+'s');});
 parallax.forEach(img=>img.classList.add('parallax-image'));
 if('IntersectionObserver'in window){
@@ -104,10 +104,3 @@ document.fonts.ready.then(schedule);
 configure();
 
 // Reveal longer case-study sections inside the dialog's own scroll area.
-const caseDialog=document.querySelector('#project-dialog');
-if(caseDialog&&'IntersectionObserver'in window){
- const caseObserver=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('case-visible');caseObserver.unobserve(entry.target);}},{root:caseDialog,threshold:.08});
- const observeCase=()=>{caseDialog.querySelectorAll('.case-sections section').forEach(section=>{section.classList.remove('case-visible');caseObserver.observe(section);});};
- document.addEventListener('project:opened',observeCase);
- if(caseDialog.open)observeCase();
-}

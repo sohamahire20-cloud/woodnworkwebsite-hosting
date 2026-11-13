@@ -54,35 +54,6 @@ if(chatPanel){
 }
 
 // Concept studies stay distinct from actual completed commissions.
-const projectDataElement=document.querySelector('#project-data');
-let projectData=[];try{projectData=JSON.parse(projectDataElement?.textContent||'[]');}catch{}
-const projectDialog=document.querySelector('#project-dialog');
-let projectOpener;
-if(projectDialog){
- if(typeof projectDialog.showModal!=='function')document.documentElement.classList.add('no-dialog');
- projectDialog.setAttribute('aria-labelledby','project-dialog-title');
- document.querySelectorAll('[data-project]').forEach(button=>button.addEventListener('click',event=>{
-  const project=projectData.find(item=>item.id===button.dataset.project);if(!project)return;projectOpener=button;
-  if(typeof projectDialog.showModal!=='function')return;
-  event.preventDefault();
-  if(document.querySelector('[data-project-gallery]'))document.querySelector('[data-filter="'+project.category+'"]')?.click();
-  const image=document.querySelector('#project-dialog-image');image.src=project.image;image.alt=`AI-generated design: ${project.title}`;
-  for(const name of ['title','brief','solution'])document.querySelector(`#project-dialog-${name}`).textContent=project[name];
-  const list=document.querySelector('#project-dialog-materials');list.replaceChildren(...project.materials.map(text=>{const item=document.createElement('li');item.textContent=text;return item;}));
-  projectDialog.showModal();projectDialog.scrollTop=0;document.body.classList.add('dialog-open');document.dispatchEvent(new Event('project:opened'));
- }));
- const closeProject=()=>projectDialog.close();
- projectDialog.querySelector('.dialog-close').addEventListener('click',closeProject);
- projectDialog.addEventListener('click',event=>{if(event.target===projectDialog){const rect=projectDialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)closeProject();}});
- projectDialog.addEventListener('close',()=>{document.body.classList.remove('dialog-open');projectOpener?.focus({preventScroll:true});});
-}
-document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{
- document.querySelectorAll('[data-filter]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-pressed',String(active));});
- let stagger=0;
- document.querySelectorAll('.project-card[data-category]').forEach(card=>{card.hidden=button.dataset.filter!=='all'&&card.dataset.category!==button.dataset.filter;if(!card.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&card.animate)card.animate([{opacity:0,transform:'translateY(28px) scale(.98)'},{opacity:1,transform:'translateY(0) scale(1)'}],{duration:500,delay:stagger++*65,easing:'cubic-bezier(.16,1,.3,1)'});});
-}));
-
-// Six-second decorative film. No text, replay or other controls overlay the opening.
 const openingVideo=document.querySelector('#opening-video');
 if(openingVideo){
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -139,10 +110,3 @@ if(form){
   window.location.assign(href);
  });
 }
-
-if(document.querySelector('[data-project-gallery]'))document.querySelector('[data-filter="kitchens"]')?.click();
-const conceptId=new URLSearchParams(location.search).get('concept');
-if(conceptId)document.querySelector('[data-project="'+CSS.escape(conceptId)+'"]')?.click();
-function openConceptHash(){const id=location.hash.match(/^#concept-([a-z-]+)$/)?.[1];if(id)document.querySelector('[data-project="'+CSS.escape(id)+'"]')?.click();}
-openConceptHash();
-window.addEventListener('hashchange',openConceptHash);

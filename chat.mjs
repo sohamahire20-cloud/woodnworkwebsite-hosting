@@ -1,6 +1,8 @@
 import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 const limits=new Map();
+import { materialOptions } from './catalog.mjs';
+
 const contact='Please contact Wood N Work personally on +91 9090 9999 16 or https://wa.me/919090999916.';
 export async function chat(req,res,root){
   const send=(code,data)=>{res.writeHead(code,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
@@ -21,12 +23,13 @@ export async function chat(req,res,root){
   // are sent to a provider. Only the explicitly allowlisted general prompts below can use AI.
   if(/@|\d{3}|\b(my name|i am|i’m|i'm|my address|my phone|my number|my budget|my requirement|my project|my email)\b/i.test(question))return faq('Please share personal enquiry details through Get in Touch or directly on WhatsApp. This assistant handles general business questions. '+contact);
   if(/warrant|guarantee|install|deliver|timeline|how long|how soon|price|cost|rate|budget|estimate|supplier|stock|brand|partner|dealership|mahavir/.test(q))return faq('These details need a personal discussion. We do not have confirmed prices, schedules, warranties or supplier availability to share here. '+contact);
-  if(/review|testimonial|completed|client|portfolio|project/.test(q))return faq('The Projects page shows illustrative kitchen, wardrobe and interior design concepts, including AI-generated imagery. They are not completed Wood N Work projects or real client briefs. No customer reviews are published without genuine approval.');
+  if(/review|testimonial/.test(q))return faq('No customer reviews are published without genuine approval. '+contact);
   if(/where|location|address|hour|open|visit|nashik/.test(q))return faq('Wood N Work is based in and serves Nashik. Address: 273, Shree Kulswamini Business Centre, Shop No. 6/7, Pandhari Mala, Ambad, Nashik-10. Hours: 10:00 AM–8:00 PM. '+contact);
-  if(/phone|whatsapp|contact|call|email|instagram|website/.test(q))return faq('Call or WhatsApp +91 9090 9999 16. Email: siddham.0160@gmail.com. Use the Instagram link on this site to find us there. The website prepares WhatsApp drafts; you must press Send there. We cannot verify sending or delivery.');
-  if(/experience|founder|siddham|history|who are/.test(q))return faq('Wood N Work — By Siddham Bhandari is based in Nashik. Founder: Siddham Bhandari. The business identifies 35+ years of experience and reasonable pricing as strengths. No founding date or detailed company history is confirmed.');
-  if(!planningQuestion&&/offer|service|make|kitchen|wardrobe|furniture|interior/.test(q))return faq('Wood N Work offers interior design, furniture, modular kitchens, wardrobes and other interior-related work customised to client requirements. Share your requirement through Get in Touch, or contact us personally to discuss scope.');
-  if(/enquir|quote|start|begin|form/.test(q))return faq('Use Get in Touch with your name, phone, requirement and locality. Dimensions, budget, timing and email are optional. After a successful server save, a WhatsApp draft opens. Please press Send inside WhatsApp; the website cannot verify message delivery.');
+  if(/phone|whatsapp|contact|call|email|instagram|website/.test(q))return faq('Call or WhatsApp +91 9090 9999 16. Email: woodnwork16@gmail.com. Use the Instagram link on this site to find us there. The website prepares WhatsApp drafts; you must press Send there. We cannot verify sending or delivery.');
+  if(/experience|history|who are/.test(q))return faq('Wood N Work is a Nashik modular furniture brand built on over 35 years of experience in plywood, laminates, hardware and furniture raw materials.');
+  if(!planningQuestion&&/material|plywood|hmdr|laminate|acrylic|hardware|shutter|finish/.test(q))return faq('Materials and finishes to discuss include '+materialOptions.join(', ')+'. '+contact);
+  if(!planningQuestion&&/offer|service|make|product|kitchen|wardrobe|furniture|door|bed|office|portfolio|project/.test(q))return faq('Wood N Work offers modular kitchens, wardrobes, doors, beds and office furniture. Visit Products to browse the collections, or contact us to discuss your requirements.');
+  if(/enquir|quote|start|begin|form/.test(q))return faq('Use Get in Touch with your name, phone, requirement and locality. Dimensions, budget, timing and email are optional. The website opens a WhatsApp draft and attempts a background save. Please press Send inside WhatsApp; the website cannot verify message delivery.');
   const generalPrompts=new Map([
     ['what should i consider when planning kitchen storage?','Explain general kitchen storage planning considerations without making claims about company capabilities.'],
     ['what is the difference between plywood and veneer?','Explain in simple terms the general difference between plywood and wood veneer, without recommending a supplier or grade.'],
