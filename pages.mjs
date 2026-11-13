@@ -66,14 +66,26 @@ function productsPage(){
       </div>
       <div class="catalog-grid">
         ${items.map(([image,name,description])=>`<article class="catalog-card">
-          <img src="/images/products/${image}.webp" alt="" loading="lazy">
+          <a class="catalog-image-link" href="/images/products/full/${image}.webp" aria-label="View full-size image of ${name}" data-product-photo>
+            <img src="/images/products/${image}.webp" alt="${name}" width="1254" height="1254" loading="lazy" decoding="async">
+            <span aria-hidden="true">View full size ${arrow}</span>
+          </a>
           <div><h3>${name}</h3><p>${description}</p></div>
         </article>`).join('')}
       </div>
     </section>`).join('');
   return `${pageIntro('WOOD N WORK / PRODUCT COLLECTIONS','Furniture for<br><em>the way you live.</em>','Explore modular kitchens, wardrobes, doors, beds and office furniture. Find a style you like and talk to us about what fits your space.')}
     <nav class="wrap" aria-label="Product categories">${productLinks()}${link('#materials','Raw materials & finishes')}</nav>
-    <p class="wrap small-note">Product references are shown to help you compare styles. Ask us about the options for your space.</p>${sections}${materials()}${closing()}`;
+    <p class="wrap small-note">Product references are shown to help you compare styles. Ask us about the options for your space.</p>${sections}
+    <dialog class="product-photo-dialog" id="product-photo-dialog" aria-labelledby="product-photo-title">
+      <div class="product-photo-toolbar">
+        <h3 id="product-photo-title"></h3>
+        <a id="product-photo-original" target="_blank" rel="noopener">Open full-resolution image ${arrow}</a>
+        <form method="dialog"><button autofocus aria-label="Close image">×</button></form>
+      </div>
+      <img id="product-photo-image" alt="">
+    </dialog>
+    ${materials()}${closing()}`;
 }
 
 function story(){

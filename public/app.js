@@ -110,3 +110,33 @@ if(form){
   window.location.assign(href);
  });
 }
+
+const productPhotoDialog = document.querySelector('#product-photo-dialog');
+if (productPhotoDialog?.showModal) {
+  const title = productPhotoDialog.querySelector('#product-photo-title');
+  const image = productPhotoDialog.querySelector('#product-photo-image');
+  const original = productPhotoDialog.querySelector('#product-photo-original');
+
+  for (const link of document.querySelectorAll('[data-product-photo]')) {
+    link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const name = link.querySelector('img').alt;
+      title.textContent = name;
+      image.alt = name;
+      image.src = link.href;
+      original.href = link.href;
+      productPhotoDialog.showModal();
+      event.preventDefault();
+    });
+  }
+
+  productPhotoDialog.addEventListener('click', event => {
+    if (event.target !== productPhotoDialog) return;
+    const bounds = productPhotoDialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right ||
+        event.clientY < bounds.top || event.clientY > bounds.bottom) {
+      productPhotoDialog.close();
+    }
+  });
+}

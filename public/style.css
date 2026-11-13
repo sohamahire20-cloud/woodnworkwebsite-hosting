@@ -155,8 +155,8 @@
 
 .catalog-card img {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 1;
 }
 
 .catalog-card > div {
@@ -175,4 +175,73 @@
 .material-options {
   padding-inline-start: 22px;
   color: var(--teal);
+}
+
+.catalog-image-link {
+  position: relative;
+  display: block;
+}
+
+.catalog-image-link:focus-visible {
+  outline-offset: -4px;
+}
+
+.catalog-image-link > span {
+  position: absolute;
+  inset: auto 12px 12px auto;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.product-photo-dialog {
+  width: min(1000px, calc(100% - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--taupe);
+  color: var(--ink);
+}
+
+.product-photo-dialog::backdrop {
+  background: #20160fd9;
+}
+
+.product-photo-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  margin-bottom: 8px;
+}
+
+.product-photo-toolbar h3 {
+  flex: 1 1 140px;
+  font-size: clamp(22px, 4vw, 30px);
+}
+
+.product-photo-toolbar a {
+  padding-block: 10px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 13px;
+}
+
+.product-photo-toolbar button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--cream);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.product-photo-dialog > img {
+  width: 100%;
+  height: min(75dvh, calc(100dvh - 125px));
+  object-fit: contain;
 }
