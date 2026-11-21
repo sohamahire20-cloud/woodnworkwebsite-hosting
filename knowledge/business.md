@@ -1,6 +1,6 @@
 # Approved business facts — owner brief, 13 November 2026
 
-Wood N Work is a modular furniture brand based in Nashik, Maharashtra, India. The business offers modular kitchens, wardrobes, doors, beds and office furniture. The brand is built on over 35 years of experience in plywood, laminates, hardware and furniture raw materials. This does not establish the age of the current brand. Reasonable pricing remains a business strength.
+WOOD N WORK is a modular furniture brand based in Nashik, Maharashtra, India. The business offers modular kitchens, wardrobes, doors, beds and office furniture. The brand is built on over 35 years of experience in plywood, laminates, hardware and furniture raw materials. This does not establish the age of the current brand. Reasonable pricing remains a business strength.
 
 Phone and WhatsApp: +91 9090 9999 16. Call: tel:+919090999916. WhatsApp: https://wa.me/919090999916
 Email: woodnwork16@gmail.com

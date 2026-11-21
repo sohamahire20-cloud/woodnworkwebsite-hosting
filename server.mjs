@@ -84,5 +84,5 @@ const server=http.createServer(async(req,res)=>{
     try {const file=await readFile(asset);res.writeHead(200,{'Content-Type':types[extname(asset)],'Cache-Control':path.startsWith('/frames/')?'public, max-age=86400':'no-cache'});res.end(req.method==='HEAD'?undefined:file);}catch{res.writeHead(404);res.end('Not found');}
   }catch(error){if(!res.headersSent)json(res,500,{error:'Something went wrong. Please try again.'});else res.end();}
 });
-server.listen(port,host,()=>console.log(`Wood N Work preview: http://localhost:${port}`));
+server.listen(port,host,()=>console.log(`WOOD N WORK preview: http://localhost:${port}`));
 server.on('error',error=>{console.error(error.message);process.exitCode=1;});

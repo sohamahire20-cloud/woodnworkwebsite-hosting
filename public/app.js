@@ -21,7 +21,7 @@ chatHistory=chatHistory.filter(item=>item&&['user','assistant'].includes(item.ro
 let chatBusy=false;
 function addChatMessage(role,text,error=false){const item=document.createElement('div');item.className=`chat-message ${role}${error?' error':''}`;item.textContent=text;chatMessages.append(item);chatMessages.scrollTop=chatMessages.scrollHeight;return item;}
 function saveChat(){/* Questions stay in this page only; enquiry data never feeds the assistant. */}
-function openChat(open,focus=true){chatPanel.hidden=!open;chatToggle.setAttribute('aria-expanded',String(open));chatToggle.setAttribute('aria-label',open?'Close Wood N Work assistant':'Open Wood N Work assistant');document.body.classList.toggle('chat-open',open);storage.write('wnw-chat-open',open);if(open&&focus)chatInput.focus({preventScroll:true});if(!open&&focus)chatToggle.focus({preventScroll:true});}
+function openChat(open,focus=true){chatPanel.hidden=!open;chatToggle.setAttribute('aria-expanded',String(open));chatToggle.setAttribute('aria-label',open?'Close WOOD N WORK assistant':'Open WOOD N WORK assistant');document.body.classList.toggle('chat-open',open);storage.write('wnw-chat-open',open);if(open&&focus)chatInput.focus({preventScroll:true});if(!open&&focus)chatToggle.focus({preventScroll:true});}
 if(chatPanel){
  for(const item of chatHistory)addChatMessage(item.role,item.content);
  openChat(false,false);
@@ -76,7 +76,7 @@ if(form){
  const setError=(name,message)=>{const field=form.elements[name],label=document.getElementById(name+'-error');if(field)field.setAttribute('aria-invalid',message?'true':'false');if(label)label.textContent=message||'';};
  form.addEventListener('input',event=>{if(event.target.name)setError(event.target.name,'');});
  function prepareDraft(values){
-  const lines=['Hello Wood N Work, I would like to discuss my requirement.','Name: '+values.name,'Phone: '+values.phone,'Requirement: '+values.requirement,'Locality: '+values.location];
+  const lines=['Hello WOOD N WORK, I would like to discuss my requirement.','Name: '+values.name,'Phone: '+values.phone,'Requirement: '+values.requirement,'Locality: '+values.location];
   for(const [key,label]of [['space','Available space / dimensions'],['budget','Budget'],['timing','Preferred timing'],['email','Email'],['details','Details']])if(values[key])lines.push(label+': '+values[key]);
   return 'https://wa.me/919090999916?text='+encodeURIComponent(lines.join('\n'));
  }

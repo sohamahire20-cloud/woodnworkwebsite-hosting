@@ -41,7 +41,7 @@ try{
  ok(opening&&opening.includes('href="#welcome"')&&opening.includes('Scroll to explore')&&!/<button|opening-bottom|film-control/.test(opening),'opening includes the mobile scroll link and has no playback overlays');
  for(const path of ['/fonts/eb-garamond-regular.woff2','/fonts/eb-garamond-italic.woff2','/fonts/figtree-regular.woff2','/motion-math.js']){const response=await fetch(base+path);ok(response.status===200,'local motion dependency '+path);}
  const metadata=JSON.parse(render('/').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
- ok(metadata.name==='Wood N Work'&&metadata.address.addressLocality==='Nashik','confirmed local business metadata');
+ ok(metadata.name==='WOOD N WORK'&&metadata.address.addressLocality==='Nashik','confirmed local business metadata');
  ok(!('aggregateRating' in metadata)&&!('openingHours' in metadata),'no invented review statistics or opening days');
  ok((await fetch(base+'/robots.txt')).status===200,'robots file available');
  const sitemap=await (await fetch(base+'/sitemap.xml')).text();ok((sitemap.match(/<loc>/g)||[]).length===4,'four canonical pages in sitemap');
