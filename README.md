@@ -39,7 +39,7 @@ The fixed mobile contact dock occupies a reserved region outside the scrolling p
 
 ### Scroll motion
 
-`public/motion.js` and `public/motion.css` provide the original, dependency-free scroll presentation. The homepage includes heading reveals, card entrances, image movement, a reading highlight and a material illustration that changes through three chapters. Scrolling remains native.
+`public/motion.js` and `public/motion.css` provide the original, dependency-free scroll presentation. The homepage includes heading reveals, card entrances, image movement, and a reading highlight. Scrolling remains native.
 
 
 Without JavaScript, for reduced-motion preferences, or below 560px of usable viewport height, the story cards form an ordinary readable sequence. The kitchen opening remains free of overlay text, replay buttons and other film controls, as requested. The full animation can be reviewed locally at `/#design-stories`.

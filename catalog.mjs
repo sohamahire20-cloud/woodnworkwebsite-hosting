@@ -31,6 +31,6 @@ export const productGroups = [
 
 export const enquiryRequirements = [...productGroups.map(group => group.requirement), 'Other Custom Furniture'];
 export const materialOptions = [
-  'BWR/BWP Plywood', 'HMDR', 'Premium Hardware', 'Premium Laminate', 'Acrylic',
+  'BWR/BWP Calibrated Plywood', 'HMDR', 'Premium Hardware', 'Premium Laminate', 'Acrylic',
   'P.U. Painted Shutters / Doors', 'Membrane Shutters / Doors'
 ];

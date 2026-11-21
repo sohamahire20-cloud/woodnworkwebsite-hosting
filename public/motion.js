@@ -7,7 +7,6 @@ const page=document.querySelector('.page-scroll');
 const deck=document.querySelector('[data-story-deck]');
 const deckCards=[...document.querySelectorAll('[data-story-card]')];
 const deckHeading=deck?.querySelector('[data-deck-heading]');
-const materialStories=[...document.querySelectorAll('[data-material-story]')];
 const brandStories=[...document.querySelectorAll('.brand-story')].map(section=>({
  chapters:[...section.querySelectorAll('.brand-story-chapter')],
  images:[...section.querySelectorAll('.brand-story-visual img')]
@@ -46,7 +45,7 @@ for(const paragraph of reading){
  paragraph.setAttribute('aria-label',paragraph.textContent);
  const words=paragraph.textContent.split(/(\s+)/);paragraph.replaceChildren(...words.map(text=>{const span=document.createElement('span');span.textContent=text;span.setAttribute('aria-hidden','true');return span;}));
 }
-const entering=[...document.querySelectorAll('.offering-card,.catalog-card,.principles article,.story-grid,.furniture-feature,.about-visual,.planning-band,.material-reading article,.contact-card,.form-heading,.layout-grid article,.furniture-type-grid article,.material-chapters article,.brand-story-chapter')];
+const entering=[...document.querySelectorAll('.offering-card,.catalog-card,.principles article,.story-grid,.furniture-feature,.about-visual,.planning-band,.contact-card,.form-heading,.layout-grid article,.furniture-type-grid article,.material-chapters article,.brand-story-chapter')];
 entering.forEach((node,index)=>{node.dataset.motionEnter='';node.style.setProperty('--enter-delay',(index%2)*.12+'s');});
 parallax.forEach(img=>img.classList.add('parallax-image'));
 if('IntersectionObserver'in window){
@@ -68,14 +67,6 @@ function update(){
    current=index;
   }
   images.forEach((image,index)=>image.classList.toggle('is-current',index===current));
- }
- for(const story of materialStories){
-  const steps=[...story.querySelectorAll('[data-material-step]')];let nearest=0,closest=Infinity;
-  steps.forEach((step,index)=>{const rect=step.getBoundingClientRect();const distance=Math.abs(rect.top+rect.height*.4-height*.5);if(distance<closest){closest=distance;nearest=index;}});
-  story.querySelector('[data-material-scene]').dataset.active=String(nearest);
-  story.style.setProperty('--material-phase',String(nearest));
-  steps.forEach((step,index)=>step.classList.toggle('material-active',index===nearest));
-  story.querySelectorAll('.material-index span').forEach((label,index)=>label.classList.toggle('active',index===nearest));
  }
  }
  if(deck&&deck.classList.contains('showcase-animated')){

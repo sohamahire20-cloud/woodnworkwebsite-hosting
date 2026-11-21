@@ -25,7 +25,7 @@ try{
   ok(products.includes('id="'+id+'"'),'catalog category '+id);
  }
  ok((products.match(/class="catalog-card"/g)||[]).length===18,'all catalog entries rendered');
- for(const material of ['BWR/BWP Plywood','HMDR','Premium Hardware','Premium Laminate','Acrylic','P.U. Painted Shutters / Doors','Membrane Shutters / Doors']){
+ for(const material of ['BWR/BWP Calibrated Plywood','HMDR','Premium Hardware','Premium Laminate','Acrylic','P.U. Painted Shutters / Doors','Membrane Shutters / Doors']){
   ok(products.includes(material)&&render('/').includes(material),'approved material '+material);
  }
  for(const [path,target] of [['/projects','/products'],['/plywood-hardware','/products#materials']]){
