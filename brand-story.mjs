@@ -8,14 +8,14 @@ const chapters = [
     ]
   },
   {
-    image: 'story-kitchen',
+    image: 'story-kitchen-refined',
     paragraphs: [
       'From elegant modular kitchens and sophisticated wardrobes to bespoke furniture and complete interior solutions, we combine contemporary aesthetics, intelligent functionality and quality materials to create spaces that reflect your lifestyle.',
       'We believe great interiors are not just about how a space looks, but also about how it feels, functions and lasts. Every project is approached with precision, personalised attention and a commitment to delivering quality beyond expectations.'
     ]
   },
   {
-    image: 'story-bedroom',
+    image: 'story-home-office',
     paragraphs: [
       '<strong>Our experience is our foundation. Design is our passion. Craftsmanship is our promise.</strong>',
       'At WOOD N WORK, we don’t just make furniture. We create spaces designed around the way you live.',

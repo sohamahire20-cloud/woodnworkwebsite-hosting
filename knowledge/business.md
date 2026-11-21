@@ -6,7 +6,7 @@ Phone and WhatsApp: +91 9090 9999 16. Call: tel:+919090999916. WhatsApp: https:/
 Email: woodnwork16@gmail.com
 Instagram: direct visitors to the Instagram link on the website.
 Address: 273, Shree Kulswamini Business Centre, Shop No. 6/7, Pandhari Mala, Ambad, Nashik-10
-Hours: 10:00 AM–8:00 PM. No specific open days are confirmed.
+Timing as per appointment. No fixed hours or open days are confirmed.
 Business location and service area: Nashik. Discuss other locations personally; do not promise coverage.
 
 Pages: Home, About Us, Products and Get in Touch. The catalog uses owner-supplied product references. Do not describe them as completed customer work.
