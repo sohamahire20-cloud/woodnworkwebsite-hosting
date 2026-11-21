@@ -64,8 +64,8 @@ try{
  r=await fetch(base+'/api/enquiries',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'name=QA'});ok(r.status===415,'no-JS POST rejected without URL leak');
  r=await post('/api/enquiries',[]);ok(r.status===400,'array rejected');
  r=await post('/api/enquiries',{...lead,details:'a'.repeat(17000)});ok(r.status===413,'oversized body rejected');
- r=await fetch(base+'/video/kitchen-opening-six.mp4',{headers:{Range:'bytes=0-99'}});ok(r.status===206&&(await r.arrayBuffer()).byteLength===100,'video byte range');
- r=await fetch(base+'/video/kitchen-opening-six.mp4',{headers:{Range:'bytes=99999999-'}});ok(r.status===416,'invalid range rejected');
+ r=await fetch(base+'/video/kitchen-opening-full.mp4',{headers:{Range:'bytes=0-99'}});ok(r.status===206&&(await r.arrayBuffer()).byteLength===100,'video byte range');
+ r=await fetch(base+'/video/kitchen-opening-full.mp4',{headers:{Range:'bytes=99999999-'}});ok(r.status===416,'invalid range rejected');
  r=await fetch(base+'/api/chat/status');body=await r.json();ok(body.mode==='business-faq','honest unconfigured status');
  for(const [question,expected]of [['Where are you based?','Shree Kulswamini'],['What do you offer?','modular kitchens'],['What is the warranty?','personally'],['Do you have reviews?','No customer reviews'],['My phone is 9000000000','personal enquiry']]){r=await post('/api/chat',{message:question});body=await r.json();ok(r.status===200&&body.mode==='business-faq'&&body.reply.includes(expected),'grounded FAQ '+question);}
  // Provider adapter: intercept fetch in this test process; never contact a real AI service.
