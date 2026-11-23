@@ -53,6 +53,11 @@
     letter-spacing: -.04em;
   }
 
+  .opening-mobile-title em {
+    display: block;
+    white-space: nowrap;
+  }
+
   .opening-mobile-copy a {
     display: inline-flex;
     align-items: center;
