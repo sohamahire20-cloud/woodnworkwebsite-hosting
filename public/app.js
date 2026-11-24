@@ -56,10 +56,12 @@ if(chatPanel){
 // Concept studies stay distinct from actual completed commissions.
 const openingVideo=document.querySelector('#opening-video');
 if(openingVideo){
+ const openingStill=document.querySelector('.opening-still');
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
  const canObserve='IntersectionObserver'in window;
- let inView=!canObserve,playAttempt=0;
+ let inView=!canObserve,playAttempt=0,hasStarted=false,showingFinal=false;
  function syncPlayback(){
+  if(showingFinal)return;
   if(!inView||document.hidden||motion.matches||navigator.connection?.saveData){
    playAttempt++;
    openingVideo.pause();
@@ -75,7 +77,11 @@ if(openingVideo){
   });
  }
  openingVideo.muted=true;
- openingVideo.addEventListener('playing',()=>openingVideo.classList.add('is-playing'));
+ openingVideo.addEventListener('playing',()=>{
+  if(showingFinal)return;
+  hasStarted=true;
+  openingVideo.classList.add('is-playing');
+ });
  openingVideo.addEventListener('error',()=>openingVideo.classList.remove('is-playing'));
  motion.addEventListener('change',syncPlayback);
  if(canObserve){
@@ -85,7 +91,23 @@ if(openingVideo){
   });
   observer.observe(openingVideo);
  }
- document.addEventListener('visibilitychange',syncPlayback);
+ document.addEventListener('visibilitychange',()=>{
+  if(document.hidden&&hasStarted&&!showingFinal&&!motion.matches&&openingStill?.dataset.finalFrame){
+   // Mobile browsers can suspend video in the background. Use its actual last frame instead.
+   showingFinal=true;
+   playAttempt++;
+   openingVideo.pause();
+   const firstFrame=openingStill.src;
+   openingStill.src=openingStill.dataset.finalFrame;
+   openingStill.decode().then(()=>openingVideo.classList.remove('is-playing')).catch(()=>{
+    openingStill.src=firstFrame;
+    showingFinal=false;
+    syncPlayback();
+   });
+   return;
+  }
+  syncPlayback();
+ });
  syncPlayback();
 }
 
