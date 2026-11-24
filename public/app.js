@@ -57,13 +57,36 @@ if(chatPanel){
 const openingVideo=document.querySelector('#opening-video');
 if(openingVideo){
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
+ const canObserve='IntersectionObserver'in window;
+ let inView=!canObserve,playAttempt=0;
+ function syncPlayback(){
+  if(!inView||document.hidden||motion.matches||navigator.connection?.saveData){
+   playAttempt++;
+   openingVideo.pause();
+   if(motion.matches)openingVideo.classList.remove('is-playing');
+   return;
+  }
+  // Keep the existing source and playhead when returning to the hero.
+  if(openingVideo.ended||openingVideo.error||!openingVideo.paused)return;
+  if(!openingVideo.hasAttribute('src'))openingVideo.src=openingVideo.dataset.src;
+  const attempt=++playAttempt;
+  openingVideo.play().catch(()=>{
+   if(attempt===playAttempt)openingVideo.classList.remove('is-playing');
+  });
+ }
  openingVideo.muted=true;
  openingVideo.addEventListener('playing',()=>openingVideo.classList.add('is-playing'));
  openingVideo.addEventListener('error',()=>openingVideo.classList.remove('is-playing'));
- motion.addEventListener('change',()=>{if(motion.matches){openingVideo.pause();openingVideo.classList.remove('is-playing');}});
- if('IntersectionObserver'in window){const observer=new IntersectionObserver(([entry])=>{if(!entry.isIntersecting)openingVideo.pause();});observer.observe(openingVideo);}
- document.addEventListener('visibilitychange',()=>{if(document.hidden)openingVideo.pause();});
- if(!motion.matches&&!navigator.connection?.saveData){openingVideo.src=openingVideo.dataset.src;openingVideo.play().catch(()=>openingVideo.classList.remove('is-playing'));}
+ motion.addEventListener('change',syncPlayback);
+ if(canObserve){
+  const observer=new IntersectionObserver(entries=>{
+   inView=entries.at(-1).isIntersecting;
+   syncPlayback();
+  });
+  observer.observe(openingVideo);
+ }
+ document.addEventListener('visibilitychange',syncPlayback);
+ syncPlayback();
 }
 
 const form=document.querySelector('#enquiry-form');
