@@ -12,6 +12,27 @@
 
 .opening-mobile-copy { display: none; }
 
+@media (width > 620px) {
+  body[data-page="/"] .header {
+    position: sticky;
+    top: 0;
+    padding-block: 8px 10px;
+    background: var(--cream);
+  }
+
+  body[data-page="/"] .opening {
+    height: auto;
+    min-height: 0;
+    max-height: calc(100svh - 92px);
+    aspect-ratio: 16 / 9;
+  }
+
+  body[data-page="/"] .opening-still,
+  body[data-page="/"] .opening-video {
+    object-fit: contain;
+  }
+}
+
 @media (max-width: 620px) {
   .opening {
     --opening-top: clamp(108px, 21svh, 160px);
@@ -95,7 +116,7 @@
 
   .opening-mobile-copy .opening-mobile-description {
     max-width: 32ch;
-    font: 400 15px/1.6 var(--sans);
+    font: 400 17px/1.6 var(--sans);
     letter-spacing: normal;
   }
 
