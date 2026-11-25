@@ -6,8 +6,8 @@
 @media(prefers-reduced-motion:reduce){html,.page-scroll{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.reveal-ready [data-reveal]{transform:none}.material-sticky{position:relative;top:auto}}
 @media(max-height:620px){.chat-panel{height:calc(100dvh - 120px);overflow-y:auto}.chat-header{padding:8px 14px}.chat-messages{min-height:0;flex:1 0 65px}.chat-suggestions,.chat-notice{display:none}.chat-panel form,.chat-header,.chat-bottom{flex-shrink:0}.chat-bottom{padding:2px 14px}}
 .js .project-noscript{display:none}.js.no-dialog .project-noscript{display:block}
-.wordmark{flex-direction:column;align-items:flex-start}.wordmark .brand-logo{width:auto;height:60.6px;display:block}.wordmark small{font-size:7px;letter-spacing:.14em;margin-top:5px;margin-left:2px}.nav-frame{padding-top:9px;padding-bottom:9px}
-@media(max-width:620px){.wordmark .brand-logo{height:52px}.wordmark small{font-size:6px;margin-top:4px}.nav-frame{min-height:78px}.header nav{top:86px}.page-intro{padding-top:138px}}
+.wordmark{flex-direction:column;align-items:flex-start}.wordmark .brand-logo{width:154px;height:auto;display:block}.wordmark small{font-size:7px;letter-spacing:.14em;margin-top:5px;margin-left:2px}.nav-frame{padding-top:9px;padding-bottom:9px}
+@media(max-width:620px){.wordmark .brand-logo{width:132px}.wordmark small{font-size:6px;margin-top:4px}.nav-frame{min-height:78px}.header nav{top:86px}.page-intro{padding-top:138px}}
 @media(max-width:620px){.opening{height:calc(100svh - 80px - env(safe-area-inset-bottom));min-height:480px;padding:0;background:#d6c4b1}.opening-still,.opening-video{position:absolute;inset:0;height:100%;width:100%;aspect-ratio:auto;object-fit:contain}.opening-shade{display:none}}
 
 .opening-mobile-copy { display: none; }
