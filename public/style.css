@@ -21,9 +21,10 @@
   }
 
   body[data-page="/"] .opening {
+    width: 100%;
     height: auto;
     min-height: 0;
-    max-height: calc(100svh - 92px);
+    /* Keep the full-width frame intact on short, wide screens. */
     aspect-ratio: 16 / 9;
   }
 
