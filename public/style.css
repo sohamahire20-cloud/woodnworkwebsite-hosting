@@ -60,7 +60,9 @@
     height: auto;
     aspect-ratio: 16 / 9;
   }
+}
 
+@media (max-width: 900px) {
   .opening-mobile-copy {
     grid-row: 3;
     display: flex;
@@ -91,7 +93,7 @@
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 900px) {
   .opening-mobile-copy {
     padding: clamp(22px, 4svh, 40px) 22px 16px;
     gap: 12px;
@@ -124,6 +126,68 @@
   .opening-mobile-copy a {
     margin-top: auto;
   }
+}
+
+@media (620px < width <= 900px) {
+  :root {
+    --contact-dock-height: calc(68px + env(safe-area-inset-bottom));
+    color-scheme: only light;
+  }
+
+  .page-scroll { padding-bottom: var(--contact-dock-height); }
+  .contact-rail {
+    inset: auto 0 0;
+    height: var(--contact-dock-height);
+    padding: 10px 24px calc(10px + env(safe-area-inset-bottom));
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    background: #fff;
+    border-top: 1px solid var(--line);
+  }
+  .rail-button > span { right: 0; bottom: calc(100% + 8px); }
+  .chat-panel {
+    right: 24px;
+    bottom: calc(var(--contact-dock-height) + 12px);
+    height: min(620px, calc(100dvh - var(--contact-dock-height) - 32px));
+  }
+
+  body[data-page="/"] .opening {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    min-height: calc(100svh - 92px - var(--contact-dock-height));
+    aspect-ratio: auto;
+    background: linear-gradient(165deg, var(--taupe), var(--peach));
+  }
+  body[data-page="/"] :is(.opening-still, .opening-video) {
+    position: relative;
+    inset: auto;
+    grid-area: 1 / 1;
+    align-self: center;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  .opening-mobile-copy {
+    grid-row: 2;
+    padding: clamp(24px, 4vh, 36px) clamp(26px, 6vw, 52px) 20px;
+  }
+  .opening-mobile-copy .opening-mobile-title { font-size: clamp(38px, 6vw, 48px); }
+}
+
+@media (620px < width <= 900px) and (orientation: landscape) {
+  body[data-page="/"] .opening {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-rows: auto;
+    column-gap: clamp(18px, 3vw, 30px);
+    align-items: center;
+    padding: 24px clamp(18px, 3vw, 30px);
+  }
+  .opening-mobile-copy {
+    grid-area: 1 / 2;
+    padding: 24px 0;
+  }
+  .opening-mobile-copy .opening-mobile-title { font-size: clamp(28px, 4.3vw, 38px); }
 }
 
 #form-status:empty { display: none; }
