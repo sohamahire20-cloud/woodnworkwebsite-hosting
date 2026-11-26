@@ -62,7 +62,8 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px),
+       (900px < width <= 1200px) and (pointer: coarse) and (max-aspect-ratio: 3/2) {
   .opening-mobile-copy {
     grid-row: 3;
     display: flex;
@@ -93,7 +94,8 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px),
+       (900px < width <= 1200px) and (pointer: coarse) and (max-aspect-ratio: 3/2) {
   .opening-mobile-copy {
     padding: clamp(22px, 4svh, 40px) 22px 16px;
     gap: 12px;
@@ -128,7 +130,9 @@
   }
 }
 
-@media (620px < width <= 900px) {
+/* Above the Fold range, keep wider or mouse-first viewports on the desktop layout. */
+@media (620px < width <= 900px),
+       (900px < width <= 1200px) and (pointer: coarse) and (max-aspect-ratio: 3/2) {
   :root {
     --contact-dock-height: calc(68px + env(safe-area-inset-bottom));
     color-scheme: only light;
@@ -175,7 +179,8 @@
   .opening-mobile-copy .opening-mobile-title { font-size: clamp(38px, 6vw, 48px); }
 }
 
-@media (620px < width <= 900px) and (orientation: landscape) {
+@media (620px < width <= 900px) and (orientation: landscape),
+       (900px < width <= 1200px) and (pointer: coarse) and (orientation: landscape) and (max-aspect-ratio: 3/2) {
   body[data-page="/"] .opening {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     grid-template-rows: auto;
@@ -188,6 +193,19 @@
     padding: 24px 0;
   }
   .opening-mobile-copy .opening-mobile-title { font-size: clamp(28px, 4.3vw, 38px); }
+}
+
+@media (700px < width <= 1200px) and (min-height: 950px) and (orientation: portrait) and (pointer: coarse) {
+  .opening-mobile-copy .opening-mobile-title { font-size: clamp(48px, 6.5vw, 60px); }
+}
+
+@media (900px < width <= 1200px) and (pointer: coarse) and (max-aspect-ratio: 3/2) {
+  .contact-rail { padding-inline: max(32px, env(safe-area-inset-right)); }
+  .chat-panel { right: max(32px, env(safe-area-inset-right)); }
+}
+
+@media (900px < width <= 1200px) and (pointer: coarse) and (orientation: landscape) and (max-aspect-ratio: 3/2) {
+  .opening-mobile-copy .opening-mobile-title { font-size: clamp(38px, 4.6vw, 54px); }
 }
 
 #form-status:empty { display: none; }

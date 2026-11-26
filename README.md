@@ -27,6 +27,8 @@ The business email is `woodnwork16@gmail.com`. The name and contact details in p
 
 ## Design and assets
 
+The welcome hero and bottom contact dock also apply above 900px through 1200px when the primary pointer is coarse and the viewport is no wider than 3:2. Taller touch portrait viewports above 700px get a larger welcome title. These rules use layout and input capabilities without identifying devices; a touch-first computer at the same size and aspect ratio shares the tablet layout.
+
 At viewport widths over 620px through 900px, the homepage uses the cream welcome hero with the full kitchen frame above the copy in portrait and beside it in landscape. The contact buttons sit in a bottom dock in this range. This layout does not use device detection. The range explicitly uses the site's light palette even when the system prefers dark. Chromium's automatic darkening honors the light-only setting in testing; browser or extension overrides that ignore it (including Samsung Internet settings where applicable) are outside the site's control. The approved phone and desktop ranges keep their original theme behavior.
 
 White canvas, walnut-brown text/actions, beige panels, generous spacing and editorial typography. Wispr Flow informed type hierarchy and page rhythm; Kiwo Modular informed the opening presentation. No reference-site code, branding or proprietary media is used. The same openly licensed font families observed on Wispr—EB Garamond and Figtree—are served locally from `public/fonts`, with their SIL Open Font License notices. System fonts remain as fallbacks.
