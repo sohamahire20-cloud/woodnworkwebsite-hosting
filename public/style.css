@@ -237,12 +237,16 @@
       text-align: center;
     }
 
-    .opening-mobile-copy > :not(.opening-mobile-title) { display: none; }
+    .opening-mobile-copy > :not(.opening-mobile-title, .opening-mobile-description) { display: none; }
     .opening-mobile-title {
       font: 400 clamp(38px, 4vw, 56px)/1.08 var(--serif);
       letter-spacing: -.04em;
     }
     .opening-mobile-title em { display: block; }
+    .opening-mobile-description {
+      margin-top: 12px;
+      font: 400 19px/1.6 var(--sans);
+    }
   }
 }
 
